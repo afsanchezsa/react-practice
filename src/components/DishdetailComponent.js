@@ -51,9 +51,11 @@ renderDish(dish){
 }
 render(){
     return(
+        <div className="container">
         <div className="row">
     {this.renderDish(this.props.dish)}
     {this.renderComments([{description:'Primer Comentario',author:'Andres'},{description:'Segundo Comentario',author:'Sanchez'}])}
+    </div>
     </div>
     )
 }
