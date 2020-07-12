@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, Media, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, Media, CardTitle, Breadcrumb, BreadcrumbItem, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
-
+import  CommentForm from './CommentForm'
 function RenderComments({ comments }) {
     console.log( "comments :"+ JSON.stringify(comments));
     if (comments != null) {
@@ -20,7 +20,9 @@ function RenderComments({ comments }) {
 
 
                 </ul>
-
+               
+                     <CommentForm/>
+                    
             </div>
 
         )
