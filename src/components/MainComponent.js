@@ -12,7 +12,7 @@ import { Switch, Route, Redirect ,withRouter} from 'react-router-dom';
 import Home from './HomeComponent'
 import AboutUs from './AboutComponent';
 import {connect} from 'react-redux';
-const mapStateToProps=state=>{//este state es el estado retornado por el reducer
+const mapStateToProps=state=>{//este state es el estado retornado por el reducer (en este caso el reducer formado por combine reducer)
   return {
     dishes:state.dishes,
     comments:state.comments,
