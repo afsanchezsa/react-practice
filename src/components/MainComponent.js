@@ -13,7 +13,23 @@ import Home from './HomeComponent'
 import AboutUs from './AboutComponent';
 import { connect } from 'react-redux';
 import { addComment } from '../redux/ActionCreators';
+/*
+NOTA: para implementar redux:
+1. crear los tipos de acciones como en archivo ActionTypes
+2. crear las acciones (funciones que retornan un  objeto con type y payload) como en Action Creators
+3.cree los reducers (vea el ejemplo de comment.js ) los cuales son funciones que reciben el estado actual y una accion y retornan el nuevo estado.
+4.Cree el store combinando todos los reducers tal como se hizo el archivo configureStore.
+5. En App.js con un Provider haga disponible en la aplicacion el store.
+6. en el MainComponent o el archivo donde desee usar el store, haga el connecto con el withRouter para
+seguir usando el React Router (vea la ultima linea de este archivo)
+7. Declare las funciones mapStateToProps que va a retornar un objeto con las props que vienen de la store
+8.declare la funcion MatchDispatchToProps que recibe el dispatcher. a este
+dispatcher se le pasa como parametro una accion (creada en ActionCreators) con sus parametros y
+con esta accion construye el nuevo estado global de la aplicacion.
+como el estado global cambió  se ejecuta de nuevo mapStateToProps y cambian las props y asi se actualizan los datos
 
+
+*/
 const mapStateToProps = state => {//este state es el estado retornado por el reducer (en este caso el reducer formado por combine reducer)
   return {
     dishes: state.dishes,
@@ -26,7 +42,7 @@ const mapStateToProps = state => {//este state es el estado retornado por el red
 const mapDispatchToProps = (dispatch) => {
 return {
 addComment:(dishId,rating,author,comment)=>dispatch(addComment(dishId,rating,author,comment))
-
+//se hace dispatch con addComment que es una accion creada en ActionCreators
 }
 }
 class Main extends React.Component {
