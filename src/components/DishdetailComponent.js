@@ -4,7 +4,7 @@ import { Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, Media, CardTitle, Breadcrumb, BreadcrumbItem, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import  CommentForm from './CommentForm'
-function RenderComments({ comments }) {
+function RenderComments({ comments ,addComment,dishId}) {
     console.log( "comments :"+ JSON.stringify(comments));
     if (comments != null) {
         return (
@@ -21,7 +21,7 @@ function RenderComments({ comments }) {
 
                 </ul>
                
-                     <CommentForm/>
+                     <CommentForm dishId={dishId} addComment={addComment}/>
                     
             </div>
 
@@ -79,7 +79,10 @@ function Dishdetail(props) {
 
             <div className="row">
                 <RenderDish dish={props.dish} />
-                <RenderComments comments={props.comments} />
+                <RenderComments comments={props.comments} 
+                addComment={props.addComment}
+                dishId={props.dish.id}
+                />
             </div>
         </div>
     )

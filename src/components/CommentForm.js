@@ -15,8 +15,8 @@ class CommentForm extends Component {
     }
     
     handleSubmit(values) {
-
-
+        this.toggleCommentForm();
+        this.props.addComment(this.props.dishId,values.rating,values.author,values.comment);
         alert("Current State:" + JSON.stringify(values));
     }
     toggleCommentForm() {
@@ -30,9 +30,9 @@ class CommentForm extends Component {
                 <ModalBody>
                     <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                         <Row className="form-group">
-                            <Label htmlFor='Rating' md={2}>Rating</Label>
+                            <Label htmlFor='rating' md={2}>Rating</Label>
                             <Col md={12}>
-                                <Control.select model='.Rating' id='Rating' name='Rating'
+                                <Control.select model='.rating' id='rating' name='rating'
                                     className='form-control'
 
 
@@ -48,9 +48,9 @@ class CommentForm extends Component {
                             </Col>
                         </Row>
                         <Row className="form-group">
-                            <Label htmlFor='name' md={3}>Your Name</Label>
+                            <Label htmlFor='author' md={3}>Your Name</Label>
                             <Col md={12}>
-                                <Control.text model='.name' id='name' name='name'
+                                <Control.text model='.author' id='author' name='author'
                                     className='form-control'
                                     validators={{minLength:minLength(3),maxLength:maxLength(15)}}
 
@@ -60,7 +60,7 @@ class CommentForm extends Component {
                                 
                                 <Errors
                                     className='text-danger'
-                                    model='.name'
+                                    model='.author'
                                     show='touched'
                                     messages={{
                                         
