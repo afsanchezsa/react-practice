@@ -21,7 +21,7 @@ function RenderLeader({ leader }) {
 
 
 }
-function About(props) {
+function AboutComponent(props) {
 
     const leaders = props.leaders.map((leader) => {
         return (
@@ -94,4 +94,4 @@ function About(props) {
     );
 }
 
-export default About;    
+export default AboutComponent;    
