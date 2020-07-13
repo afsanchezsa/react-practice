@@ -2,6 +2,20 @@ import React, { Component } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col, Row, FormFeedback } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form';
+
+
+/*
+Para hacer una validacion de formulario con react-redux-form se pone la etiqueta LocalForm en ves de Form
+y en ves de input ahora es Control.text o Control.check ... segun el tipo de input
+en la propiedad validators se pone un objeto con las funciones de validacion que deben retornar
+verdadero si se valido correctamente o falso de lo contrario, luego abajo del Control se pone 
+el componente Erros con los mensajes que deben salir en caso de que esas funciones 
+hayan validado una entrada incorrecta.
+NOTA: al hacer submit en LocalForm, entonces se puede ejecutar una funcion que permite 
+obtener todos los valores del formulario en un objeto que para este caso llamamos values (vease
+    la funcion handleSubmit)
+NOTA:Para hacer esos formularios que flotan se hace con Modal
+*/
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val) && (val.length >= len);
