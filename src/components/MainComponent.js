@@ -12,7 +12,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Home from './HomeComponent'
 import AboutUs from './AboutComponent';
 import { connect } from 'react-redux';
-import { addComment } from '../redux/ActionCreators';
+import { addComment, fetchDishes } from '../redux/ActionCreators';
 /*
 NOTA: para implementar redux:
 1. crear los tipos de acciones como en archivo ActionTypes
@@ -32,7 +32,7 @@ como el estado global cambió  se ejecuta de nuevo mapStateToProps y cambian las
 */
 const mapStateToProps = state => {//este state es el estado retornado por el reducer (en este caso el reducer formado por combine reducer)
   return {
-    dishes: state.dishes,
+    dishes: state.dishes,//state.[nombrequesepusoenelcombinereducer] (por eso es state.dishes)
     comments: state.comments,
     promotions: state.promotions,
     leaders: state.leaders///aqui se pasa a los props todas las propiedades del destado global
@@ -40,10 +40,12 @@ const mapStateToProps = state => {//este state es el estado retornado por el red
 
 }
 const mapDispatchToProps = (dispatch) => {
-return {
-addComment:(dishId,rating,author,comment)=>dispatch(addComment(dishId,rating,author,comment))
-//se hace dispatch con addComment que es una accion creada en ActionCreators
-}
+  return {
+    addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
+    //se hace dispatch con addComment que es una accion creada en ActionCreators
+    fetchDishes: () => { dispatch(fetchDishes()) }
+
+  }
 }
 class Main extends React.Component {
   constructor(props) {
@@ -51,21 +53,29 @@ class Main extends React.Component {
 
 
   }
+  componentDidMount() {
+    this.props.fetchDishes();
+  }
 
   render() {
     const HomePage = () => {/*ahora se usa el props pues se hizo el macth state to props*/
-      return (<Home dish={this.props.dishes.filter((dish) => dish.featured)[0]}
+      return (<Home dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+        dishesLoading={this.props.dishes.isLoading}
+        dishesErrMess={this.props.dishes.errMess}
         promotion={this.props.promotions.filter((promo) => promo.featured)[0]}
         leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+
       />);
     }
     const DishWidthId = ({ match }) => {
       console.log(match.params);
       return (
-        <Dishdetail dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+        <Dishdetail dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+          isLoading={this.props.dishes.isLoading}
+          errMess={this.props.dishes.errMess}
           comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
           addComment={this.props.addComment}
-          />
+        />
 
       );
 
@@ -94,5 +104,5 @@ class Main extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
 /* withRouter es para que funcione el router aun cuando se hace el connect*/
