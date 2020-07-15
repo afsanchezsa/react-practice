@@ -13,6 +13,7 @@ import Home from './HomeComponent'
 import AboutUs from './AboutComponent';
 import { connect } from 'react-redux';
 import { addComment, fetchDishes } from '../redux/ActionCreators';
+import {actions} from 'react-redux-form'
 /*
 NOTA: para implementar redux:
 1. crear los tipos de acciones como en archivo ActionTypes
@@ -43,7 +44,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
     //se hace dispatch con addComment que es una accion creada en ActionCreators
-    fetchDishes: () => { dispatch(fetchDishes()) }
+    fetchDishes: () => { dispatch(fetchDishes()) },
+    resetFeedbackForm:()=>{dispatch(actions.reset('feedback'))}
 
   }
 }
@@ -92,7 +94,7 @@ class Main extends React.Component {
           <Route path="/home" component={HomePage} />
           <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
           <Route path="/menu/:dishId" component={DishWidthId} />
-          <Route exact path='/contactus' component={Contact} />
+          <Route exact path='/contactus' component={()=><Contact resetFeedbackForm={this.props.resetFeedbackForm}/>} />
           <Route exact path='/aboutus' component={() => <AboutComponent leaders={this.props.leaders} />} />
           <Redirect to="home" />
         </Switch>
