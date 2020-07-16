@@ -2,20 +2,49 @@ import * as ActionTypes from './ActionTypes';
 import {DISHES} from '../shared/dishes';
 import {baseUrl} from '../shared/baseUrl';
 
-export const addComment = (dishId, rating, author, comment) => ({
+export const addComment = ( comment) => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: {
-        dishId: dishId,
-        rating: rating,
-        author: author,
-        comment: comment
-    }
+    payload:comment
 });
+export const postComment=(dishId,rating ,author,comment)=>(dispatch)=>{
+const newComment={
+    dishId:dishId,
+        rating:rating,
+            author:author,
+    comment:comment
+
+    }
+    newComment.date=new Date().toISOString();
+return fetch(baseUrl+'comments',{
+    method:'POST',
+    body:JSON.stringify(newComment),
+    headers:{
+        'Content-Type':'application/json'
+    },
+    credentials:'same-origin'
+})
+    .then(response => {
+        if (response.ok) {
+            return response;
+        } else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw  error;
+        }
+    }, error => {//este error es un error en la peticion, por ejemplo que nunca encontro el servidor mientras el error de catch es un error por estar en status 400 a 500
+        var errMess = new Error(error.message);
+        throw errMess;
+    }).then(response=>response.json())
+    .then(response=>dispatch(addComment(response)))
+    .catch(error=>{console.log('Post Comments',error.message);
+    alert('comment cannot be posted\nError:'+error.message);
+    })
+}
 
 export const fetchDishes = () => (dispatch) => {//este es un thunk (en ves de retornar un action retorna una funcion que recibe como parametro el dispatcher)
 
     dispatch(dishesLoading(true));
-    return fetch(baseUrl + 'dishees')
+    return fetch(baseUrl + 'dishes')
         .then(response => {
             if (response.ok) {
                 return response;
