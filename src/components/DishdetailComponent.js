@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import { Modal, Form, ModalHeader, ModalBody, Col, Row, Label } from 'reactstrap';
 import { Loading } from './LoadingComponent'
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import {baseUrl} from "../shared/baseUrl";
+
 const minLength = (len) => (val) => val && val.length >= len;
 const maxLength = (len) => (val) => val && val.length <= len;
 class CommentForm extends Component {
@@ -107,7 +109,7 @@ function RenderComments({ comments, addComment, dishId }) {
                 <h4>Comments</h4>
                 <ul className="list-unstyled">
                     {comments.map((comment) => {
-                        return (<li >{comment.comment}<br /><br />---{comment.author}<br /><br /></li>)
+                        return (<li key={comment.id} >{comment.comment}<br /><br />---{comment.author}<br /><br /></li>)
 
 
                     })}
@@ -131,7 +133,7 @@ function RenderDish({ dish }) {
         return (
             <div className="col-md-5 col-xs-12 m-1">
                 <Card >
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
+                    <CardImg width="100%" src={baseUrl+dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
                         <CardText>
