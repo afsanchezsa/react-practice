@@ -14,6 +14,7 @@ import AboutUs from './AboutComponent';
 import {connect} from 'react-redux';
 import {postComment, fetchDishes, fetchPromos,fetchComments} from '../redux/ActionCreators';
 import {actions} from 'react-redux-form'
+import {TransitionGroup,CSSTransition} from 'react-transition-group'
 /*
 NOTA: para implementar redux:
 1. crear los tipos de acciones como en archivo ActionTypes
@@ -108,7 +109,8 @@ class Main extends React.Component {
         return (
             <div>
                 <Header/>
-
+                <TransitionGroup>
+                    <CSSTransition key={this.props.location.key} classNames='page' timeout={300}>
                 <Switch>
 
                     <Route path="/home" component={HomePage}/>
@@ -119,8 +121,8 @@ class Main extends React.Component {
                     <Route exact path='/aboutus' component={() => <AboutComponent leaders={this.props.leaders}/>}/>
                     <Redirect to="home"/>
                 </Switch>
-
-
+                    </CSSTransition>
+            </TransitionGroup>
                 <Footer/>
             </div>
         );
