@@ -10,7 +10,7 @@ function RenderCard({item, isLoading, errMess}) {
     } else if (errMess) {
         return (<h4>{errMess}</h4>)
 
-    } else
+    } else{
         return (
             <FadeTransform in
                            transformProps={{
@@ -27,6 +27,8 @@ function RenderCard({item, isLoading, errMess}) {
                 </Card>
             </FadeTransform>
         );
+    }
+        
 }
 
 function Home(props) {
@@ -47,7 +49,10 @@ function Home(props) {
 
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.leader}/>
+                    <RenderCard item={props.leader}
+                    isLoading={props.leadersLoading}
+                                errMess={props.leadersErrMess}
+                    />
 
                 </div>
             </div>

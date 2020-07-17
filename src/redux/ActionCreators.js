@@ -129,3 +129,49 @@ export const addPromos = (promos) => ({
     type: ActionTypes.ADD_PROMOS,
     payload: promos
 })
+export const fetchLeaders=()=>dispatch=>{
+    dispatch(leadersLoading());
+    return fetch(baseUrl+'leaders').
+        then(response=>{
+            if(response.ok){
+                return response
+            }else{
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw  error;
+            }
+    }).then(response=>response.json())
+        .then(leaders=>dispatch(addLeaders(leaders)))
+        .catch(error=>dispatch(leadersFailed(error.message)))
+}
+export const addLeaders=(leaders)=>{
+    return {
+        type:ActionTypes.ADD_LEADERS,
+        payload: leaders
+
+    }
+}
+export const  leadersFailed=(errorMessage)=>{
+    return {
+        type:ActionTypes.LEADERS_FAILED,
+        payload:errorMessage
+    }
+}
+export const leadersLoading=()=>{
+    return {
+        type:ActionTypes.LEADERS_LOADING
+    }
+}
+export const postFeedback=(feedback)=>(dispatch)=>{
+return fetch(baseUrl+'feedback',{
+    method:'POST',
+    body:JSON.stringify(feedback),
+    headers:{
+        'Content-Type':'application/json'
+    },
+    credentials:'same-origin'
+}).then(response=>response.json())
+.then(feedback=>alert('Thank you for your feedback! '+JSON.stringify(feedback)))//pues fetch retorna una promesa y al hacer .json() retorna otra promesa por eso toca imprimir en otro then
+.catch(error=>alert('Error '+ error.message));
+
+}

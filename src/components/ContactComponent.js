@@ -56,6 +56,7 @@ class Contact extends Component {
 
         alert("Current State:" + JSON.stringify(values));
         this.props.resetFeedbackForm();
+        this.props.postFeedback(values);
 
     }
     /*handleBlur=(field)=>(evt)=>{
